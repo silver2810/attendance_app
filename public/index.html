@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Attendance App QR Access</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 2rem;
+        color: #1f2937;
+      }
+      .container {
+        max-width: 560px;
+        margin: 0 auto;
+        text-align: center;
+      }
+      img {
+        width: 280px;
+        height: 280px;
+        border: 1px solid #d1d5db;
+        border-radius: 8px;
+      }
+      a.button {
+        display: inline-block;
+        margin-top: 1rem;
+        padding: 0.7rem 1rem;
+        border-radius: 6px;
+        background: #2563eb;
+        color: #fff;
+        text-decoration: none;
+      }
+      code {
+        background: #f3f4f6;
+        padding: 0.2rem 0.4rem;
+        border-radius: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="container">
+      <h1>Attendance Form QR Code</h1>
+      <p>Share this QR code so participants can open the attendance form online.</p>
+      <img id="qr-code" alt="QR code for attendance form" />
+      <p>
+        Form URL:
+        <br />
+        <code id="form-url"></code>
+      </p>
+      <a class="button" href="/form.html">Open Form</a>
+    </main>
+
+    <script>
+      const formUrl = `${window.location.origin}/form.html`;
+      document.getElementById("form-url").textContent = formUrl;
+      document.getElementById("qr-code").src =
+        `https://api.qrserver.com/v1/create-qr-code/?size=280x280&data=${encodeURIComponent(formUrl)}`;
+    </script>
+  </body>
+</html>

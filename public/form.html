@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Attendance Form</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 2rem;
+        color: #1f2937;
+      }
+      .container {
+        max-width: 620px;
+        margin: 0 auto;
+      }
+      form {
+        display: grid;
+        gap: 1rem;
+      }
+      label {
+        display: grid;
+        gap: 0.4rem;
+        font-weight: 600;
+      }
+      input,
+      select,
+      textarea,
+      button {
+        font: inherit;
+        padding: 0.6rem;
+        border-radius: 6px;
+        border: 1px solid #d1d5db;
+      }
+      button {
+        background: #2563eb;
+        border: none;
+        color: white;
+        cursor: pointer;
+      }
+      .notice {
+        display: none;
+        margin-top: 1rem;
+        color: #065f46;
+        background: #d1fae5;
+        padding: 0.7rem;
+        border-radius: 6px;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="container">
+      <h1>Attendance Form</h1>
+      <p>Fill in your details and submit.</p>
+
+      <form id="attendance-form">
+        <label>
+          Full name
+          <input type="text" name="fullName" required />
+        </label>
+
+        <label>
+          Date
+          <input type="date" name="attendanceDate" required />
+        </label>
+
+        <label>
+          Class / Group
+          <input type="text" name="classGroup" required />
+        </label>
+
+        <label>
+          Present?
+          <select name="present" required>
+            <option value="">Select one</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </label>
+
+        <label>
+          Notes
+          <textarea name="notes" rows="3" placeholder="Optional"></textarea>
+        </label>
+
+        <button type="submit">Submit</button>
+      </form>
+
+      <p class="notice" id="success-message">Thank you. Your attendance was recorded on this device.</p>
+    </main>
+
+    <script>
+      const form = document.getElementById("attendance-form");
+      const notice = document.getElementById("success-message");
+
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        const payload = Object.fromEntries(new FormData(form));
+        const existing = JSON.parse(localStorage.getItem("attendanceEntries") || "[]");
+        existing.push({ ...payload, submittedAt: new Date().toISOString() });
+        localStorage.setItem("attendanceEntries", JSON.stringify(existing));
+
+        notice.style.display = "block";
+        form.reset();
+      });
+    </script>
+  </body>
+</html>
